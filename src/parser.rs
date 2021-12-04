@@ -60,7 +60,7 @@ impl<'a> Error for ParseError<'a> {
 }
 
 fn input_to_str(input: Input) -> &str {
-    input.fragment()
+    input.fragment
 }
 
 fn str_to_input(s: &str) -> Input {
@@ -75,7 +75,7 @@ fn consume_line(input: Input) -> IResult<Input, &str> {
 pub(crate) fn parse_single_patch(s: &str) -> Result<Patch, ParseError> {
     let (remaining_input, patch) = patch(str_to_input(s))?;
     // Parser should return an error instead of producing remaining input
-    assert!(remaining_input.fragment().is_empty(), "bug: failed to parse entire input. \
+    assert!(remaining_input.fragment.is_empty(), "bug: failed to parse entire input. \
         Remaining: '{}'", input_to_str(remaining_input));
     Ok(patch)
 }
@@ -83,7 +83,7 @@ pub(crate) fn parse_single_patch(s: &str) -> Result<Patch, ParseError> {
 pub(crate) fn parse_multiple_patches(s: &str) -> Result<Vec<Patch>, ParseError> {
     let (remaining_input, patches) = multiple_patches(str_to_input(s))?;
     // Parser should return an error instead of producing remaining input
-    assert!(remaining_input.fragment().is_empty(), "bug: failed to parse entire input. \
+    assert!(remaining_input.fragment.is_empty(), "bug: failed to parse entire input. \
         Remaining: '{}'", input_to_str(remaining_input));
     Ok(patches)
 }
@@ -167,7 +167,7 @@ fn range(input: Input) -> IResult<Input, Range> {
 
 fn u64_digit(input: Input) -> IResult<Input, u64> {
     let (input, digits) = digit1(input)?;
-    let num = digits.fragment().parse::<u64>().unwrap();
+    let num = digits.fragment.parse::<u64>().unwrap();
     Ok((input, num))
 }
 
